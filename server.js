@@ -17,9 +17,8 @@ const AUTH = Buffer.from(`${SN_USER}:${SN_PASS}`).toString("base64");
 app.post("/create-case", async (req, res) => {
   try {
     const data = {
-      priority: req.body.priority,
-      short_description: req.body.short_description,
-      opened_by: req.body.opened_by
+      
+      short_description: req.body.short_description
     };
 
     const response = await fetch(SN_URL, {
