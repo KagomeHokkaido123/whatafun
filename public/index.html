@@ -23,12 +23,9 @@
       <input type="email" id="email" required>
       <label for="subject">Temat:</label>
       <input type="text" id="subject" required>
-      <label for="priority">Priorytet:</label>
-      <select id="priority">
-        <option value="1">1 - Krytyczny</option>
-        <option value="2">2 - Wysoki</option>
-        <option value="3" selected>3 - Normalny</option>
-        <option value="4">4 - Niski</option>
+      <label for="description">Opis:</label>
+      <input type="text" id="description" required>
+
       </select>
       <button type="submit">Wyślij</button>
     </form>
@@ -42,7 +39,7 @@
       msg.textContent = "Wysyłanie...";
 
       const data = {
-        priority: document.getElementById("priority").value,
+        description: document.getElementById("description").value,
         short_description: document.getElementById("subject").value,
         opened_by: document.getElementById("email").value
       };
