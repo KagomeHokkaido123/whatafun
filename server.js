@@ -22,9 +22,12 @@ async function getToken() {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
-      grant_type: "client_credentials",
-      client_id: CLIENT_ID,
+      grant_type: "password_credentials",
+      code: CLIENT_ID,
       client_secret: CLIENT_SECRET,
+      username: SN_USER,
+      password: SN_PASS
+      
     })
   });
 
