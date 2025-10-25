@@ -93,19 +93,19 @@
 </head>
 
 <body>
-  <div class="card" role="form" aria-label="[translate:formularz zgłoszenia do ServiceNow]">
-    <h2>[translate:Nowe zgłoszenie]</h2>
+  <div class="card" role="form" aria-label="formularz zgłoszenia do ServiceNow">
+    <h2>Nowe zgłoszenie</h2>
     <form id="caseForm" novalidate>
-      <label for="email">[translate:Od (email):]</label>
-      <input type="email" id="email" name="email" placeholder="[translate:wpisz swój email]" required autocomplete="email" />
+      <label for="email">E-mail:</label>
+      <input type="email" id="email" name="email" placeholder="wpisz swój email" required autocomplete="email" />
 
-      <label for="subject">[translate:Temat:]</label>
-      <input type="text" id="subject" name="subject" placeholder="[translate:wpisz temat zgłoszenia]" required />
+      <label for="subject">Temat:</label>
+      <input type="text" id="subject" name="subject" placeholder="wpisz temat zgłoszenia" required />
 
-      <label for="description">[translate:Opis:]</label>
-      <textarea id="description" name="description" placeholder="[translate:opisz problem szczegółowo]" required></textarea>
+      <label for="description">Opis:</label>
+      <textarea id="description" name="description" placeholder="opisz problem szczegółowo" required></textarea>
 
-      <button type="submit">[translate:Wyślij]</button>
+      <button type="submit">Wyślij</button>
     </form>
     <div id="message" role="alert" aria-live="polite"></div>
   </div>
@@ -115,7 +115,7 @@
       e.preventDefault();
       const msg = document.getElementById("message");
       msg.style.color = "";
-      msg.textContent = "[translate:Wysyłanie...]";
+      msg.textContent = "Wysyłanie...";
 
       const data = {
         description: document.getElementById("description").value.trim(),
@@ -134,15 +134,15 @@
         if (res.ok) {
           msg.style.color = "green";
           const caseNumber = result.result ? result.result.number : undefined;
-          msg.textContent = "✅ [translate:Case utworzony!] [translate:Numer:] " + (caseNumber || "[translate:nieznany]");
+          msg.textContent = "✅ Case utworzony! Numer: " + (caseNumber || "nieznany");
           e.target.reset();
         } else {
           msg.style.color = "red";
-          msg.textContent = "❌ [translate:Błąd:] " + (result.error?.message || "[translate:Nie udało się utworzyć zgłoszenia]");
+          msg.textContent = "❌ Błąd: " + (result.error?.message || "Nie udało się utworzyć zgłoszenia");
         }
       } catch (err) {
         msg.style.color = "red";
-        msg.textContent = "⚠️ [translate:Błąd połączenia:] " + err.message;
+        msg.textContent = "⚠️ Błąd połączenia: " + err.message;
       }
     });
   </script>
