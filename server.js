@@ -9,11 +9,35 @@ const app = express();
 app.use(bodyParser.json());
 app.use(express.static("public")); // serwuje frontend
 
+const SN_INSTANCE = "https://pepcodev.service-now.com"
 const SN_URL = "https://pepcodev.service-now.com/api/sn_customerservice/portal_case_api";
-const SN_USER = process.env.SN_USER;
-const SN_PASS = process.env.SN_PASS;
-const AUTH = Buffer.from(`${SN_USER}:${SN_PASS}`).toString("base64");
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
+let accessToken = null;
+
+// 🔹 Funkcja do pobrania tokenu
+async function getToken() {
+  const response = await fetch(`${SN_INSTANCE}/oauth_token.do`, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      grant_type: "client_credentials",
+      client_id: CLIENT_ID,
+      client_secret: CLIENT_SECRET,
+    })
+  });
+
+  const data = await response.json();
+  if (data.access_token) {
+    accessToken = data.access_token;
+    console.log("Access token uzyskany!");
+  } else {
+    console.error("Błąd tokenu:", data);
+  }
+}
+
+// 🔹 Endpoint do utworzenia zgłoszenia
 app.post("/create-case", async (req, res) => {
   try {
     const data = {
