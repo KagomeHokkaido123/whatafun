@@ -24,7 +24,7 @@ async function getToken() {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
-      grant_type: "password_credentials",
+      grant_type: "password",
       client_id: CLIENT_ID,
       client_secret: CLIENT_SECRET,
       username: SN_USER,
