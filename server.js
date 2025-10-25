@@ -36,31 +36,26 @@ async function getToken() {
     console.error("Błąd tokenu:", data);
   }
 }
-
 // 🔹 Endpoint do utworzenia zgłoszenia
 app.post("/create-case", async (req, res) => {
-  try {
-    const data = {
-      
-      short_description: req.body.short_description
-    };
+  if (!accessToken) await getToken();
 
-    const response = await fetch(SN_URL, {
-      method: "POST",
-      headers: {
-        "Authorization": `Basic ${AUTH}`,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify(data)
-    });
+  const response = await fetch(`${SN_INSTANCE}/api/sn_customerservice/portal_case_api`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    body: JSON.stringify({
+      priority: req.body.priority,
+      short_description: req.body.short_description,
+      opened_by: req.body.opened_by
+    })
+  });
 
-    const result = await response.json();
-    res.status(response.status).json(result);
-  } catch (err) {
-    console.error("Error:", err.message);
-    res.status(500).json({ error: err.message });
-  }
+  const result = await response.json();
+  res.status(response.status).json(result);
 });
 
 const PORT = process.env.PORT || 3000;
