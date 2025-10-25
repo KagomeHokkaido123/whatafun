@@ -53,7 +53,7 @@ app.post("/create-case", async (req, res) => {
       "Accept": "application/json"
     },
     body: JSON.stringify({
-      priority: req.body.priority,
+      description: req.body.description,
       short_description: req.body.short_description,
       opened_by: req.body.opened_by
     })
