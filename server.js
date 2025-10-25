@@ -13,6 +13,8 @@ const SN_INSTANCE = "https://pepcodev.service-now.com"
 const SN_URL = "https://pepcodev.service-now.com/api/sn_customerservice/portal_case_api";
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const SN_USER = process.env.SN_USER;
+const SN_PASS = process.env.SN_PASS;
 
 let accessToken = null;
 
