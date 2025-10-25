@@ -1,47 +1,126 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Zgłoszenie do ServiceNow</title>
   <style>
-    body { font-family: Arial; background: #f7f8fa; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-    .card { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 420px; }
-    h2 { text-align: center; margin-bottom: 1rem; }
-    label { display: block; margin-bottom: 0.4rem; font-weight: bold; }
-    input, textarea, select { width: 100%; padding: 0.7rem; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 6px; }
-    button { width: 100%; padding: 0.8rem; background: #0078d4; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
-    button:hover { background: #005fa3; }
-    #message { text-align: center; margin-top: 1rem; font-size: 0.95rem; }
+    /* Reset marginesu i paddingu */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 1rem;
+      color: #333;
+    }
+    .card {
+      background: #fff;
+      padding: 2.5rem;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      width: 100%;
+      max-width: 420px;
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #1e3c72;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #1e3c72;
+    }
+    input[type="email"],
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.2rem;
+      border: 1.7px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      resize: vertical;
+      transition: border-color 0.25s ease;
+    }
+    input[type="email"]:focus,
+    input[type="text"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #0078d4;
+      box-shadow: 0 0 8px rgba(0,120,212,0.3);
+    }
+    textarea {
+      min-height: 120px;
+    }
+    button {
+      width: 100%;
+      background: #0078d4;
+      border: none;
+      padding: 0.9rem;
+      border-radius: 10px;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background: #005fa3;
+    }
+    #message {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 1rem;
+      min-height: 1.4em;
+      user-select: none;
+    }
   </style>
 </head>
-<body>
-  <div class="card">
-    <h2>Nowe zgłoszenie</h2>
-    <form id="caseForm">
-      <label for="email">Od (email):</label>
-      <input type="email" id="email" required>
-      <label for="subject">Temat:</label>
-      <input type="text" id="subject" required>
-      <label for="description">Opis:</label>
-      <input type="text" id="description" required>
 
-      </select>
-      <button type="submit">Wyślij</button>
+<body>
+  <div class="card" role="form" aria-label="[translate:formularz zgłoszenia do ServiceNow]">
+    <h2>[translate:Nowe zgłoszenie]</h2>
+    <form id="caseForm" novalidate>
+      <label for="email">[translate:Od (email):]</label>
+      <input type="email" id="email" name="email" placeholder="[translate:wpisz swój email]" required autocomplete="email" />
+
+      <label for="subject">[translate:Temat:]</label>
+      <input type="text" id="subject" name="subject" placeholder="[translate:wpisz temat zgłoszenia]" required />
+
+      <label for="description">[translate:Opis:]</label>
+      <textarea id="description" name="description" placeholder="[translate:opisz problem szczegółowo]" required></textarea>
+
+      <button type="submit">[translate:Wyślij]</button>
     </form>
-    <div id="message"></div>
+    <div id="message" role="alert" aria-live="polite"></div>
   </div>
 
   <script>
     document.getElementById("caseForm").addEventListener("submit", async e => {
       e.preventDefault();
       const msg = document.getElementById("message");
-      msg.textContent = "Wysyłanie...";
+      msg.style.color = "";
+      msg.textContent = "[translate:Wysyłanie...]";
 
       const data = {
-        description: document.getElementById("description").value,
-        short_description: document.getElementById("subject").value,
-        opened_by: document.getElementById("email").value
+        description: document.getElementById("description").value.trim(),
+        short_description: document.getElementById("subject").value.trim(),
+        opened_by: document.getElementById("email").value.trim()
       };
 
       try {
@@ -55,15 +134,15 @@
         if (res.ok) {
           msg.style.color = "green";
           const caseNumber = result.result ? result.result.number : undefined;
-msg.textContent = "✅ Case utworzony! Numer: " + (caseNumber || "nieznany");
+          msg.textContent = "✅ [translate:Case utworzony!] [translate:Numer:] " + (caseNumber || "[translate:nieznany]");
           e.target.reset();
         } else {
           msg.style.color = "red";
-          msg.textContent = "❌ Błąd: " + (result.error?.message || "Nie udało się utworzyć zgłoszenia");
+          msg.textContent = "❌ [translate:Błąd:] " + (result.error?.message || "[translate:Nie udało się utworzyć zgłoszenia]");
         }
       } catch (err) {
         msg.style.color = "red";
-        msg.textContent = "⚠️ Błąd połączenia: " + err.message;
+        msg.textContent = "⚠️ [translate:Błąd połączenia:] " + err.message;
       }
     });
   </script>
