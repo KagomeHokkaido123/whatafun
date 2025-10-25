@@ -57,7 +57,8 @@
 
         if (res.ok) {
           msg.style.color = "green";
-          msg.textContent = "✅ Case utworzony! Numer: " + (result.number || "nieznany");
+          const caseNumber = result.result ? result.result.number : undefined;
+msg.textContent = "✅ Case utworzony! Numer: " + (caseNumber || "nieznany");
           e.target.reset();
         } else {
           msg.style.color = "red";
