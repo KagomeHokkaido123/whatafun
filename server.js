@@ -31,7 +31,7 @@ async function getToken() {
   const data = await response.json();
   if (data.access_token) {
     accessToken = data.access_token;
-    console.log("Access token uzyskany!");
+    console.log("Access token uzyskany !" + accessToken);
   } else {
     console.error("Błąd tokenu:", data);
   }
