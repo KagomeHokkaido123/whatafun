@@ -56,6 +56,7 @@ app.post("/create-case", async (req, res) => {
       description: req.body.description,
       short_description: req.body.short_description,
       opened_by: req.body.opened_by,
+      sys_created_by: req.body.opened_by,
       cause: req.body.opened_by
     })
   });
