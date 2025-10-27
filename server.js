@@ -4,11 +4,12 @@ import fetch from "node-fetch";
 import dotenv from "dotenv";
 
 dotenv.config();
-/*
+
 const app = express();
 app.use(bodyParser.json());
 app.use(express.static("public")); // serwuje frontend
 
+/*
 const SN_INSTANCE = "https://pepcodev.service-now.com"
 const SN_URL = "https://pepcodev.service-now.com/api/sn_customerservice/portal_case_api";
 const CLIENT_ID = process.env.CLIENT_ID;
