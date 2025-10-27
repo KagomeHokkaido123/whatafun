@@ -1,150 +1,128 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Zgłoszenie do ServiceNow</title>
+<!DOCTYPE html><html lang="pl"><head>
+  <meta charset="UTF-8">
+  <title>Wywołanie API</title>
   <style>
-    /* Reset marginesu i paddingu */
-    * {
-      box-sizing: border-box;
-    }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
-      padding: 1rem;
-      color: #333;
     }
-    .card {
-      background: #fff;
-      padding: 2.5rem;
-      border-radius: 15px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      width: 100%;
-      max-width: 420px;
-      transition: transform 0.3s ease;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 25px rgba(0,0,0,0.25);
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 1.5rem;
-      color: #1e3c72;
+    form {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      width: 320px;
     }
     label {
-      display: block;
-      margin-bottom: 0.5rem;
       font-weight: 600;
-      color: #1e3c72;
+      margin-bottom: 0.3rem;
+      display: block;
+      color: #333;
     }
-    input[type="email"],
-    input[type="text"],
-    textarea {
+    input, textarea {
       width: 100%;
-      padding: 0.75rem 1rem;
-      margin-bottom: 1.2rem;
-      border: 1.7px solid #ccc;
-      border-radius: 8px;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
       font-size: 1rem;
       font-family: inherit;
-      resize: vertical;
-      transition: border-color 0.25s ease;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
     }
-    input[type="email"]:focus,
-    input[type="text"]:focus,
-    textarea:focus {
-      outline: none;
+    input:focus, textarea:focus {
       border-color: #0078d4;
-      box-shadow: 0 0 8px rgba(0,120,212,0.3);
-    }
-    textarea {
-      min-height: 120px;
+      outline: none;
     }
     button {
       width: 100%;
-      background: #0078d4;
+      padding: 0.7rem;
+      background-color: #0078d4;
       border: none;
-      padding: 0.9rem;
-      border-radius: 10px;
+      border-radius: 6px;
       color: white;
-      font-size: 1.1rem;
-      font-weight: 600;
+      font-weight: bold;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s;
     }
     button:hover {
-      background: #005fa3;
+      background-color: #005fa3;
     }
     #message {
-      text-align: center;
       margin-top: 1rem;
-      font-size: 1rem;
-      min-height: 1.4em;
-      user-select: none;
+      font-size: 0.95rem;
+      text-align: center;
     }
   </style>
 </head>
-
 <body>
-  <div class="card" role="form" aria-label="formularz zgłoszenia do ServiceNow">
-    <h2>Nowe zgłoszenie</h2>
-    <form id="caseForm" novalidate>
-      <label for="email">E-mail:</label>
-      <input type="email" id="email" name="email" placeholder="wpisz swój email" required autocomplete="email" />
 
-      <label for="subject">Subject:</label>
-      <input type="text" id="subject" name="subject" placeholder="wpisz temat zgłoszenia" required />
+<form id="caseForm">
+  <label for="email" class="" contenteditable="false">Email:</label>
+  <input type="email" id="email" name="email">
 
-      <label for="description">Body:</label>
-      <textarea id="body" name="body" placeholder="opisz problem szczegółowo" required></textarea>
+  <label for="subject" class="">Temat:</label>
+  <input type="text" id="subject" name="subject">
 
-      <button type="submit">Wyślij</button>
-    </form>
-    <div id="message" role="alert" aria-live="polite"></div>
-  </div>
+  <label for="body" class="">Treść:</label>
+   <input type="text" id="body" name="body">
+  
+    <div id="message"></div>
+
+  <button type="submit">Wyślij</button>
+</form>
+
+
 
   <script>
-    document.getElementById("caseForm").addEventListener("submit", async e => {
+    document.getElementById('caseForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      const msg = document.getElementById("message");
-      msg.style.color = "";
-      msg.textContent = "Wysyłanie...";
 
       const data = {
-        body: document.getElementById("body").value.trim(),
-        subject: document.getElementById("subject").value.trim(),
-        email: document.getElementById("email").value.trim()
+        email: document.getElementById('email').value,
+        subject: document.getElementById('subject').value,
+        body: document.getElementById('body').value
       };
 
+      const messageElem = document.getElementById('message');
+      messageElem.style.color = 'black';
+      messageElem.textContent = 'Wysyłanie...';
+
+const username = 'html_integration';
+const password = '0g7MPB^.riQ';
+const basicAuth = 'Basic ' + btoa(username + ':' + password);
+
+
       try {
-        const res = await fetch("/create-case", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+        const response = await fetch('https://pepcodev.service-now.com/api/sn_customerservice/portal_case_api', { 
+          method: 'POST',
+          headers: {
+    'Content-Type': 'application/json',
+    'Authorization': basicAuth
+  },
           body: JSON.stringify(data)
         });
-        const result = await res.json();
 
-        if (res.ok) {
-          msg.style.color = "green";
-          const caseNumber = result.result ? result.result.number : undefined;
-          msg.textContent = "✅ Case utworzony! Numer: " + (caseNumber || "nieznany");
+        const result = await response.json();
+
+        if (response.ok) {
+          messageElem.style.color = 'green';
+          messageElem.textContent = '✅ Zgłoszenie wysłane! Numer: ' + (result.number || 'nieznany');
           e.target.reset();
         } else {
-          msg.style.color = "red";
-          msg.textContent = "❌ Błąd: " + (result.error?.message || "Nie udało się utworzyć zgłoszenia");
+          messageElem.style.color = 'red';
+          messageElem.textContent = '❌ Błąd: ' + (result.error?.message || 'Nie udało się wysłać zgłoszenia');
         }
-      } catch (err) {
-        msg.style.color = "red";
-        msg.textContent = "⚠️ Błąd połączenia: " + err.message;
+      } catch (error) {
+        messageElem.style.color = 'red';
+        messageElem.textContent = '⚠️ Błąd połączenia: ' + error.message;
       }
     });
   </script>
-</body>
-</html>
+
+</body></html>
