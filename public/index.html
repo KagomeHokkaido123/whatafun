@@ -99,11 +99,11 @@
       <label for="email">E-mail:</label>
       <input type="email" id="email" name="email" placeholder="wpisz swój email" required autocomplete="email" />
 
-      <label for="subject">Temat:</label>
+      <label for="subject">Subject:</label>
       <input type="text" id="subject" name="subject" placeholder="wpisz temat zgłoszenia" required />
 
-      <label for="description">Opis:</label>
-      <textarea id="description" name="description" placeholder="opisz problem szczegółowo" required></textarea>
+      <label for="description">Body:</label>
+      <textarea id="body" name="body" placeholder="opisz problem szczegółowo" required></textarea>
 
       <button type="submit">Wyślij</button>
     </form>
@@ -118,9 +118,9 @@
       msg.textContent = "Wysyłanie...";
 
       const data = {
-        description: document.getElementById("description").value.trim(),
-        short_description: document.getElementById("subject").value.trim(),
-        opened_by: document.getElementById("email").value.trim()
+        body: document.getElementById("body").value.trim(),
+        subject: document.getElementById("subject").value.trim(),
+        email: document.getElementById("email").value.trim()
       };
 
       try {
