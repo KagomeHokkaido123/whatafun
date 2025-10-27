@@ -53,9 +53,9 @@ app.post("/create-case", async (req, res) => {
       "Accept": "application/json"
     },
     body: JSON.stringify({
-      description: req.body.description,
-      short_description: req.body.short_description,
-      opened_by: req.body.opened_by,
+      body: req.body.body,
+      subject: req.body.subject,
+      email: req.body.email,
     })
   });
 
