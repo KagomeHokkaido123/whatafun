@@ -1,10 +1,10 @@
-/*import express from "express";
+import express from "express";
 import bodyParser from "body-parser";
 import fetch from "node-fetch";
 import dotenv from "dotenv";
 
 dotenv.config();
-
+/*
 const app = express();
 app.use(bodyParser.json());
 app.use(express.static("public")); // serwuje frontend
@@ -62,6 +62,6 @@ app.post("/create-case", async (req, res) => {
   const result = await response.json();
   res.status(response.status).json(result);
 });
-
+*/
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));*/
